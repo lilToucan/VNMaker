@@ -41,12 +41,13 @@ namespace VNMaker.Interactables.Items
         }
 
         /// <summary>
-        /// applies the conditions and then triggers the ON_CONDITION_CHANGE event 
+        /// applies the conditions <br></br>
+        /// then triggers the ON_CONDITION_CHANGE event refreshing every interactable and the inventory UI 
         /// </summary>
         private void ApplyPostConditions()
         {
             ConditionsUtils.ApplyCondition(_postConditions);
-            GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE); // calls the diary to refresh the ui
+            GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE); 
         }
 
         /// <summary>
