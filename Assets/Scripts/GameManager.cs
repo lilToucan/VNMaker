@@ -18,7 +18,6 @@ namespace VNMaker.Singletons
             _dialogueEvents = new EventManager();
             _interactableEvents = new EventManager();
             _mapEvents = new EventManager();
-            
         }
     }
 }
