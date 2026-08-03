@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace VNMaker.EventBuss
 {
     /// <summary>
-    /// Classic Event buss system.<br></br>
+    /// Classic observer pattern.<br></br>
     /// Has a Dictionary that uses a strings to get a list of actions that use an array of objects as parameters
     /// </summary>
     public class EventManager
