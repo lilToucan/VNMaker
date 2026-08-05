@@ -1,4 +1,5 @@
 using System.IO;
+
 using UnityEngine;
 using VNMaker.Progression;
 
@@ -28,7 +29,7 @@ namespace VNMaker.SaveSystem
 
             return saveData;
         }
-        
+
         /// <summary>
         /// Gets a reference of the current saved data from the save file <br></br>
         /// if the id of the current scene is valid it saves the new value
@@ -39,11 +40,12 @@ namespace VNMaker.SaveSystem
         public void SaveConditionsToFile(Conditions conditions, int currentScene)
         {
             SaveData saveData = LoadSaveFile();
-            if(currentScene >= 0)
+            if (currentScene >= 0)
             {
                 saveData.CurrentSavedScene = currentScene;
             }
-            if(conditions != null)
+
+            if (conditions != null)
             {
                 saveData.SavedConditionsMap = conditions;
             }
@@ -53,17 +55,30 @@ namespace VNMaker.SaveSystem
 
             File.WriteAllText(path, serializedObject);
         }
+
         /// <summary>
         /// Deletes all saved data saved in the SaveFile
         /// </summary>
         public void ResetConditionFile()
         {
             SaveData saveData = new SaveData();
-            
+
             string serializedObject = JsonUtility.ToJson(saveData);
             string path = Path.Combine(Application.persistentDataPath, FileName);
 
             File.WriteAllText(path, serializedObject);
         }
+        
+        #if UNITY_EDITOR
+        public static void EditorResetConditionFile()
+        {
+            SaveData saveData = new SaveData();
+
+            string serializedObject = JsonUtility.ToJson(saveData);
+            string path = Path.Combine(Application.persistentDataPath, FileName);
+
+            File.WriteAllText(path, serializedObject);
+        }        
+#endif
     }
 }
