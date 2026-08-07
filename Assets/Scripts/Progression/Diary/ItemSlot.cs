@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace VNMaker.Progression.Diary
 {
-    public class ItemSlot
+    public class ItemSlot : MonoBehaviour  //diocane
     {
         
         // item slot Icon, name and button

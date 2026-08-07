@@ -47,7 +47,7 @@ namespace VNMaker.SaveSystem
 
             if (conditions != null)
             {
-                saveData.SavedConditionsMap = conditions;
+                saveData.CurrentSavedConditions = conditions;
             }
 
             string serializedObject = JsonUtility.ToJson(saveData);
@@ -78,7 +78,42 @@ namespace VNMaker.SaveSystem
             string path = Path.Combine(Application.persistentDataPath, FileName);
 
             File.WriteAllText(path, serializedObject);
-        }        
+        }
+        
+        public static SaveData LoadSaveFileEditor()
+        {
+            string path = Path.Combine(Application.persistentDataPath, FileName);
+            SaveData saveData;
+
+            if (File.Exists(path))
+            {
+                string data = File.ReadAllText(path);
+                saveData = JsonUtility.FromJson<SaveData>(data);
+            }
+            else
+                saveData = new SaveData();
+
+            return saveData;
+        }
+        
+        public void SaveConditionsToFileEditor(Conditions conditions, int currentScene = -1)
+        {
+            SaveData saveData = LoadSaveFile();
+            if (currentScene >= 0)
+            {
+                saveData.CurrentSavedScene = currentScene;
+            }
+
+            if (conditions != null)
+            {
+                saveData.CurrentSavedConditions = conditions;
+            }
+
+            string serializedObject = JsonUtility.ToJson(saveData);
+            string path = Path.Combine(Application.persistentDataPath, FileName);
+
+            File.WriteAllText(path, serializedObject);
+        }
 #endif
     }
 }

@@ -61,7 +61,7 @@ namespace VNMaker.Progression
         /// <returns></returns>
         public static Conditions GetSavedConditions()
         {
-            return GameManager.Instance.SaveManager.LoadSaveFile().SavedConditionsMap;
+            return GameManager.Instance.SaveManager.LoadSaveFile().CurrentSavedConditions;
         }
 
         

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1539f0bdb29d4456a4c81262778ca67b, type: 3}
+  m_Name: Idk
+  m_EditorClassIdentifier: Assembly-CSharp::VNMaker.Progression.Diary.ItemDataSO
+  ObjectCondition: 3
+  ObjectsStates:
+    _serializedList:
+    - Key: 1
+      Value:
+        sName: Idk 1
+        Description: it's a knfie
+        ObjectIcon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+        ObjectImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    - Key: 2
+      Value:
+        sName: Idk 12
+        Description: it's a knfie but 12
+        ObjectIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+        ObjectImage: {fileID: 21300000, guid: b533c652136df4744a089524507a44c6, type: 3}

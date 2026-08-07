@@ -27,16 +27,14 @@ namespace VNMaker.Progression.Diary
         private void OnEnable()
         {
             GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_DIARY_CHANGE, UpdateDiary);
-            GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_ITEMSLOT_PRESSED,
-                OnItemSlotPressed);
+            GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_ITEMSLOT_PRESSED, OnItemSlotPressed);
         }
 
 
         private void OnDisable()
         {
             GameManager.Instance.InteractableEvents.Unregister(InteractEventList.ON_DIARY_CHANGE, UpdateDiary);
-            GameManager.Instance.InteractableEvents.Unregister(InteractEventList.ON_ITEMSLOT_PRESSED,
-                OnItemSlotPressed);
+            GameManager.Instance.InteractableEvents.Unregister(InteractEventList.ON_ITEMSLOT_PRESSED, OnItemSlotPressed);
         }
 
         public void OpenUI()

@@ -5,7 +5,7 @@ using VNMaker.Singletons;
 
 namespace VNMaker.Progression.Diary
 {
-    public class DiaryManager
+    public class DiaryManager : MonoBehaviour
     {
         [SerializeField] private ConditionItemMap _itemMap;
 
@@ -34,7 +34,7 @@ namespace VNMaker.Progression.Diary
                 if (!_itemMap.TryGetValue(pair.Key, out ItemDataSO itemData))
                     continue;
 
-                if (!itemData.ObjectConditions.TryGetValue(pair.Value, out ItemModel itemModel))
+                if (!itemData.ObjectsStates.TryGetValue(pair.Value, out ItemModel itemModel))
                     return;
 
                 // add to the changed items

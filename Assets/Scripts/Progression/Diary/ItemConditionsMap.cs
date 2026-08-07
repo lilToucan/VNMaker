@@ -12,7 +12,7 @@ namespace VNMaker.Progression.Diary
         public Sprite ObjectIcon;
         public Sprite ObjectImage;
     }
-
+    [System.Serializable]
     public class ItemConditionsMap : SerializedDictionary<int,ItemModel>
     { }
 }
