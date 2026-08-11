@@ -26,19 +26,19 @@ namespace VNMaker.Progression.Diary
         public void OnItemListChanged(params object[] param)
         {
             // get the conditions the player has and then check if any of them are items and then change the diary UI
-            Conditions conditions = ConditionsUtils.GetSavedConditions();
-            List<DiaryUiItemData> itemsChanged = new();
+            Conditions conditions = ConditionsUtils.GetSavedConditions(); // get the saved conditions
+            List<DiaryUiItemData> itemsChanged = new(); // used to save the conditions corresponding to items
 
-            foreach (var pair in conditions)
+            foreach (var condition in conditions) // for each condition
             {
-                if (!_itemMap.TryGetValue(pair.Key, out ItemDataSO itemData))
+                if (!_itemMap.TryGetValue(condition.Key, out ItemDataSO itemData)) // if the conditionKey inside the condition is not inside the list of items then skip
                     continue;
 
-                if (!itemData.ObjectsStates.TryGetValue(pair.Value, out ItemModel itemModel))
-                    return;
+                if (!itemData.ObjectsStates.TryGetValue(condition.Value, out ItemModel itemModel)) // if there is no int value inside the ItemConditionsMap that matches the one inside the condition then skip 
+                    continue;
 
                 // add to the changed items
-                itemsChanged.Add(new(pair.Key, itemModel));
+                itemsChanged.Add(new(condition.Key, itemModel));
             }
 
             // Change the diary UI:

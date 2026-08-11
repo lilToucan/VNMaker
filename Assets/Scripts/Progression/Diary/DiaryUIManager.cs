@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using VNMaker.EventBuss;
@@ -10,12 +11,15 @@ namespace VNMaker.Progression.Diary
     public class DiaryUIManager : MonoBehaviour
     {
         [SerializeField] private GameObject diaryUiPanel;
+        
+        [SerializeField] private GameObject InventoryContentGameObject;
 
         [SerializeField] private Image itemPortrait;
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private Sprite itemSlotDefaultSprite;
 
-        [SerializeField] private ItemSlot[] _itemSlots = new ItemSlot[16];
+        [SerializeField] private GameObject InventorySlotPrefab;
+        // [SerializeField] private ItemSlot[] _itemSlots = new ItemSlot[16];
 
         private List<DiaryUiItemData> _itemsList = new();
         private List<DiaryUiItemData> _charactersList = new();
@@ -26,20 +30,20 @@ namespace VNMaker.Progression.Diary
 
         private void OnEnable()
         {
-            GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_DIARY_CHANGE, UpdateDiary);
+            GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_DIARY_CHANGE, UpdateDiaryUI);
             GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_ITEMSLOT_PRESSED, OnItemSlotPressed);
         }
 
 
         private void OnDisable()
         {
-            GameManager.Instance.InteractableEvents.Unregister(InteractEventList.ON_DIARY_CHANGE, UpdateDiary);
+            GameManager.Instance.InteractableEvents.Unregister(InteractEventList.ON_DIARY_CHANGE, UpdateDiaryUI);
             GameManager.Instance.InteractableEvents.Unregister(InteractEventList.ON_ITEMSLOT_PRESSED, OnItemSlotPressed);
         }
 
         public void OpenUI()
         {
-            LoadUI(ref _itemsList);
+            LoadItemsInUI(ref _itemsList);
 
             diaryUiPanel.SetActive(true);
         }
@@ -49,96 +53,48 @@ namespace VNMaker.Progression.Diary
             diaryUiPanel.SetActive(false);
         }
 
-        private void UpdateDiary(params object[] param)
+        /// <summary>
+        /// get's the list of items that changed from the diary manager and then checks if there are any errors
+        /// </summary>
+        /// <param name="param"></param>
+        private void UpdateDiaryUI(params object[] param)
         {
-            List<DiaryUiItemData> paramMap = (List<DiaryUiItemData>)param[0];
+            List<DiaryUiItemData> changedItems = (List<DiaryUiItemData>)param[0];
 
-            foreach (var paramItem in paramMap)
+            foreach (var changedItem in changedItems)
             {
-                CheckDuplicateInsideList(paramItem, ref _itemsList);
+                CheckDuplicateInsideList(changedItem, ref _itemsList);
             }
 
-            void CheckDuplicateInsideList(DiaryUiItemData paramItem, ref List<DiaryUiItemData> list)
+            void CheckDuplicateInsideList(DiaryUiItemData changedItem, ref List<DiaryUiItemData> itemList)
             {
-                for (int i = 0; i < list.Count; i++)
+                for (int i = 0; i < itemList.Count; i++)
                 {
-                    if (paramItem.ConditionsToUnlock != list[i].ConditionsToUnlock)
+                    if (changedItem.ConditionsToUnlock != itemList[i].ConditionsToUnlock)
                         continue;
 
-                    list[i] = paramItem;
+                    itemList[i] = changedItem;
                     return;
                 }
 
-                list.Add(paramItem);
+                itemList.Add(changedItem);
                 return;
             }
         }
 
-        private void LoadUI(ref List<DiaryUiItemData> list)
-        {
-            // basicly the first index in the list that apears in the slots 
-            // ex: slots.lengh = 2 list.count = 6, if pageIndex = 2 then we need the item in the list[4] slot 
-            var firstIndexOnPage = _itemSlots.Length * _currentPageIndex;
-
-            #region |loop the pages|
-
-            if (firstIndexOnPage >= list.Count)
+        private void LoadItemsInUI(ref List<DiaryUiItemData> items)
+        { for (int i = 0; i < items.Count; i++)
             {
-                _currentPageIndex = 0;
-                firstIndexOnPage = _itemSlots.Length * _currentPageIndex;
+                
+                ItemModel listItem = items[i].Model;
+                ItemSlot item = Instantiate(InventorySlotPrefab, InventoryContentGameObject.transform).ConvertTo<ItemSlot>();
+                item.Description = listItem.Description;
+                item.ItemImage = listItem.ObjectImage;
+                item.Icon.sprite = listItem.ObjectIcon;
             }
-
-            else if (firstIndexOnPage < 0)
-            {
-                _currentPageIndex = list.Count / _itemSlots.Length;
-                firstIndexOnPage = _itemSlots.Length * _currentPageIndex;
-            }
-
-            #endregion |loop the pages|
-
-
-            int itemSlotIndex = 0;
-
-            for (int i = firstIndexOnPage; i < list.Count; i++)
-            {
-                if (i >= list.Count || itemSlotIndex >= _itemSlots.Length)
-                    break;
-
-                ItemModel listItem = list[i].Model;
-
-                // change the icons of the items
-                _itemSlots[itemSlotIndex].Icon.sprite = listItem.ObjectIcon;
-                _itemSlots[itemSlotIndex].Name.text = listItem.sName;
-                _itemSlots[itemSlotIndex].ItemImage = listItem.ObjectImage;
-                _itemSlots[itemSlotIndex].Description = listItem.Description;
-
-                itemSlotIndex++;
-            }
-
-            if (itemSlotIndex >= _itemSlots.Length)
-                return;
-
-            for (int i = itemSlotIndex; i < _itemSlots.Length; i++)
-            {
-                _itemSlots[i].Icon.sprite = itemSlotDefaultSprite;
-                _itemSlots[i].Name.text = "";
-                _itemSlots[i].ItemImage = null;
-                _itemSlots[i].Description = "";
-            }
+            
         }
-
-        /// <summary>
-        /// changes the item loaded
-        /// </summary>
-        /// <param name="pageTurnDirection">-1 = previous page | 1 = next page </param>
-        public void ChangePage(int pageTurnDirection)
-        {
-            _currentPageIndex += pageTurnDirection;
-
-
-            LoadUI(ref _itemsList);
-        }
-
+        
         private void OnItemSlotPressed(object[] obj)
         {
             ItemSlot itemSlot = (ItemSlot)obj[0];
