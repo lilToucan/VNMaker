@@ -1,8 +1,8 @@
 namespace VNMaker.Progression
 {
-    public enum ConditionKeys
+    public enum ConditionEnum
     {
-        none,
+        None,
         ExampleKnife,
         ExampleJumpScare,
         ExampleIdk

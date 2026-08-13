@@ -4,15 +4,15 @@ using UnityEngine;
 namespace VNMaker.Progression.Diary
 {
     [System.Serializable]
-    public struct ItemModel
+    public struct UiItemData
     {
-        public string sName;
+        public string Name;
         [TextArea]
         public string Description;
         public Sprite ObjectIcon;
         public Sprite ObjectImage;
     }
     [System.Serializable]
-    public class ItemConditionsMap : SerializedDictionary<int,ItemModel>
+    public class ItemConditionsMap : SerializedDictionary<int,UiItemData>
     { }
 }

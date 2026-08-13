@@ -56,6 +56,7 @@ namespace VNMaker.SaveSystem
             File.WriteAllText(path, serializedObject);
         }
 
+        
         /// <summary>
         /// Deletes all saved data saved in the SaveFile
         /// </summary>

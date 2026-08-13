@@ -8,7 +8,6 @@ namespace VNMaker.Progression
    
     public class ConditionsUtils
     {
-        
         /// <summary>
         /// Gets a reference to the saved Conditions <br></br>
         /// Then it loops the given conditions checking if they aren't inside the savedConditions if so it returns false <br></br>
@@ -20,7 +19,7 @@ namespace VNMaker.Progression
         {
             Conditions savedConditions = GetSavedConditions();
             
-            foreach (KeyValuePair<ConditionKeys, int> condition in conditions) 
+            foreach (KeyValuePair<ConditionEnum, int> condition in conditions) 
             {
                 if (!savedConditions.TryGetValue(condition.Key, out int value)) // if the key exists in the savedConditions
                     return false;

@@ -6,13 +6,12 @@ using UnityEngine.UI;
 
 namespace VNMaker.Progression.Diary
 {
-    public class ItemSlot : MonoBehaviour  //diocane
+    public class ItemSlot : MonoBehaviour
     {
-        
         // item slot Icon, name and button
         public Image Icon;
-        public TextMeshProUGUI Name;
-        [SerializeField] private Button _button;
+        public TextMeshProUGUI SlotName;
+        [SerializeField] private Button _Button;
 
         // general item and description
         [HideInInspector] public Sprite ItemImage;
@@ -20,19 +19,25 @@ namespace VNMaker.Progression.Diary
 
         private void OnEnable()
         {
-            _button.onClick.AddListener(new(OnInteraction));
+            _Button.onClick.AddListener(new(OnInteraction));
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveAllListeners();
+            _Button.onClick.RemoveAllListeners();
         }
 
+        public void UpdateData(UiItemData newData)
+        {
+            Description =  newData.Description != "" ? newData.Description : Description ;
+            ItemImage = newData.ObjectImage != null ? newData.ObjectImage : ItemImage;
+            Icon.sprite = newData.ObjectIcon !=  null ? newData.ObjectIcon :  Icon.sprite;
+            SlotName.text = newData.Name != "" ? newData.Name : SlotName.text;
+        }
 
         public void OnInteraction()
         {
             GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_ITEMSLOT_PRESSED, this);
         }
-
     }
 }
