@@ -277,6 +277,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 3
       Value: 1
+    - Key: 1
+      Value: 1
 --- !u!114 &309818353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,14 +757,6 @@ PrefabInstance:
     - target: {fileID: 4684933353670687829, guid: 69c50914816a96e45b922039056cb8e4, type: 3}
       propertyPath: m_Name
       value: Diary (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6805826786810869956, guid: 69c50914816a96e45b922039056cb8e4, type: 3}
-      propertyPath: ScriptableObjectsPath
-      value: Resources
-      objectReference: {fileID: 0}
-    - target: {fileID: 6805826786810869956, guid: 69c50914816a96e45b922039056cb8e4, type: 3}
-      propertyPath: _ItemMap._serializedList.Array.size
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

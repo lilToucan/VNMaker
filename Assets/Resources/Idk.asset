@@ -17,13 +17,13 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        sName: Idk 1
+        Name: MaxVerstapenKnife
         Description: it's a knfie
-        ObjectIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-        ObjectImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+        ObjectIcon: {fileID: 21300000, guid: f082e69f825d0aa44b687e592731c0a8, type: 3}
+        ObjectImage: {fileID: 21300000, guid: 7342ee656932e31489ea62e64e012645, type: 3}
     - Key: 2
       Value:
-        sName: Idk 12
+        Name: 
         Description: it's a knfie but 12
         ObjectIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
         ObjectImage: {fileID: 21300000, guid: b533c652136df4744a089524507a44c6, type: 3}

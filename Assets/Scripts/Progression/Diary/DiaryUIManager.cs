@@ -22,17 +22,16 @@ namespace VNMaker.Progression.Diary
         // [SerializeField] private ItemSlot[] _itemSlots = new ItemSlot[16];
 
         private List<ConditionToItemData> _listOfItemsInDiary = new();
-        private Dictionary<ConditionToItemData, ItemSlot> _inventorySlots = new();
-        
+        private Dictionary<ConditionEnum, ItemSlot> _inventorySlots = new();
+
         private void OnEnable()
         {
             GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_DIARY_CHANGE, UpdateInventory);
             GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_ITEMSLOT_PRESSED, OnItemSlotPressed);
-            
-            GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE); 
-            
-            UpdateDetails(null,"");
-            
+
+            GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE);
+
+            UpdateDetails(null, "");
         }
 
 
@@ -59,7 +58,7 @@ namespace VNMaker.Progression.Diary
         private void CloseUI()
         {
             _DiaryUiPanel.SetActive(false);
-            UpdateDetails(null,"");
+            UpdateDetails(null, "");
         }
 
         /// <summary>
@@ -70,13 +69,20 @@ namespace VNMaker.Progression.Diary
         {
             List<ConditionToItemData> changedItems = (List<ConditionToItemData>)param[0];
 
-            foreach (ConditionToItemData changedItemData in changedItems)
+            for (int x = 0; x < changedItems.Count; x++)
             {
-                for (int i = 0; i < _listOfItemsInDiary.Count; i++) 
+                ConditionToItemData changedItemData = changedItems[x];
+                
+                for (int i = 0; i < _listOfItemsInDiary.Count; i++) // check if you already have the item saved then if so change just the data
                 {
-                    if (changedItemData.ConditionsToUnlock != _listOfItemsInDiary[i].ConditionsToUnlock) // check if the changedItem already exist
+                    ConditionToItemData diaryItem = _listOfItemsInDiary[i];
+
+                    if (!_inventorySlots.TryGetValue(changedItemData.ConditionsToUnlock, out ItemSlot inventorySlot))
                         continue;
                     
+                    if (changedItemData.ConditionsToUnlock != diaryItem.ConditionsToUnlock) // check if the changedItem already exist
+                        continue;
+
                     _listOfItemsInDiary[i] = changedItemData; // if so then change that slot's data to the new one
                     break;
                 }
@@ -93,20 +99,20 @@ namespace VNMaker.Progression.Diary
         {
             foreach (ConditionToItemData diaryItemData in _listOfItemsInDiary)
             {
-                if(diaryItemData == null)
+                if (diaryItemData == null)
                     continue;
-                
+
                 UiItemData uiItemData = diaryItemData.Data;
 
-                if (_inventorySlots.TryGetValue(diaryItemData, out ItemSlot inventorySlot)) // if already spawned then just update existing slot
+                if (_inventorySlots.TryGetValue(diaryItemData.ConditionsToUnlock, out ItemSlot inventorySlot)) // if already spawned then just update existing slot
                 {
                     inventorySlot.UpdateData(uiItemData);
                     continue;
                 }
-                
+
                 ItemSlot item = Instantiate(_InventorySlotPrefab, _InventoryContentGameObject.transform).ConvertTo<ItemSlot>();
                 item.UpdateData(uiItemData);
-                _inventorySlots.Add(diaryItemData, item);
+                _inventorySlots.Add(diaryItemData.ConditionsToUnlock, item);
             }
         }
 
@@ -118,8 +124,8 @@ namespace VNMaker.Progression.Diary
 
         private void UpdateDetails(Sprite newSprite, string newDescription)
         {
-            _ItemPortrait.sprite  = newSprite;
-            _Description.text =  newDescription;
+            _ItemPortrait.sprite = newSprite;
+            _Description.text = newDescription;
         }
     }
 }

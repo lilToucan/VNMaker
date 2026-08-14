@@ -36,7 +36,7 @@ namespace VNMaker.Progression.Diary
                 if (!_ItemMap.TryGetValue(condition.Key, out ItemDataSO itemData)) // if this is not an item skip it. (checks if the ConditionEnum is inside the list of items)
                     continue;
 
-                if (!itemData.ObjectsStates.TryGetValue(condition.Value, out UiItemData itemModel)) // if there is no int value inside the ItemConditionsMap that matches the one inside the condition then skip 
+                if (!itemData.ObjectsStates.TryGetValue(condition.Value, out UiItemData itemModel)) // if there is no version of this item with the int value given skip it (key = knife id = 100 but knife:100 == nothing)
                     continue;
 
                 // add to the changed items
