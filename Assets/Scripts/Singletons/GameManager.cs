@@ -1,6 +1,5 @@
 using UnityEngine.SceneManagement;
 using VNMaker.EventBuss;
-using VNMaker.Progression;
 using VNMaker.SaveSystem;
 
 namespace VNMaker.Singletons
@@ -11,7 +10,7 @@ namespace VNMaker.Singletons
         private EventManager _interactableEvents;
         private EventManager _mapEvents;
         private SaveManager _saveManager;
-        
+
         public EventManager DialogueEvents => _dialogueEvents;
         public EventManager InteractableEvents => _interactableEvents;
         public EventManager MapEvents => _mapEvents;
@@ -24,11 +23,12 @@ namespace VNMaker.Singletons
             _interactableEvents = new EventManager();
             _mapEvents = new EventManager();
             _saveManager = new SaveManager();
-           
+
+#if UNITY_EDITOR
+            return;
+#endif
             // saves the new scene
-            SceneManager.activeSceneChanged += (sender, args) => {
-                _saveManager.SaveConditionsToFile(null, SceneManager.GetActiveScene().buildIndex);
-            };
+            SceneManager.activeSceneChanged += (sender, args) => { _saveManager.SaveConditionsToFile(null, SceneManager.GetActiveScene().buildIndex); };
         }
     }
 }

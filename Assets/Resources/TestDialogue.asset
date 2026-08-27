@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5683fd04b22b406097748dc174958e1e, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.DialogueSO
+  Dialogue:
+    _PreConditions:
+      _serializedList: []
+    _DialogueCSV: {fileID: 4900000, guid: 646fe88cdfe23744a81b40460db3e30e, type: 3}
+    _DialogueParts:
+    - _Name: Omino
+      _Sentences:
+      - _Sentence: soy el fuego que arde el tu piel
+        _SFXAudio: {fileID: 0}
+        _SpriteAnimMapAnimMap:
+          _serializedList:
+          - Key: {fileID: 3042885534864340799, guid: f11a811b0914dff498c70c32cd5140a8, type: 3}
+            Value:
+            - {fileID: 7400000, guid: 14e6fb2c485e67047bf544844fea0ba1, type: 2}
+            - {fileID: 7400000, guid: e5992c6a98d9e424da75e3ea96fb2a63, type: 2}
+          - Key: {fileID: 5882273088893980385, guid: 2652074918a654242853d3a5184b51c4, type: 3}
+            Value: []
+    _PostConditions:
+      _serializedList: []
+    _HasChoices: 0
+    _DialogueChoices: []
+    _HasSceneChange: 1
+    _TargetSceneName: 
+    _DialogueMusicBackground: {fileID: 0}
+    _LoopStartingPointInSeconds: 0
+  HasChoices: 0
+  Choices: []
+  HasSceneChange: 1
+  TargetSceneName: 
