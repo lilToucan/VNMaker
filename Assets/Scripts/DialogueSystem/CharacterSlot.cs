@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using VNMaker.EventBuss;
+using VNMaker.Singletons;
 
 namespace DialogueSystem
 {
@@ -16,7 +17,7 @@ namespace DialogueSystem
         private AnimatorOverrideController _animatorOverrider;
         private List<AnimationClipPlayable> _playableClips = new();
 
-        private static int index;
+        private Vector3 _spriteStartPosition;
 
         // for testing purposes 
         //[SerializeField] private List<AnimationClip> _animations;
@@ -36,7 +37,21 @@ namespace DialogueSystem
             _mixerPlayable.ConnectInput(0, controllerPlayable, 0);
             _mixerPlayable.SetInputWeight(0, 0);
         }
-        
+
+
+        private void Start()
+        {
+            _spriteStartPosition = SpriteHolder.transform.localPosition;
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.RESET_CHARACTER, ResetCharacter);
+        }
+
+        private void ResetCharacter(object[] obj)
+        {
+            SpriteHolder.transform.localScale = Vector3.one;
+            SpriteHolder.transform.rotation = Quaternion.identity;
+            SpriteHolder.transform.localPosition = _spriteStartPosition;
+        }
+
         // [Test]
         // public void TestingPlayAnims()
         // {
@@ -85,7 +100,7 @@ namespace DialogueSystem
 
             _graph.Play();
         }
-        
+
         private void OnDestroy()
         {
             if (_graph.IsValid())
@@ -103,6 +118,5 @@ namespace DialogueSystem
                 }
             }
         }
-
     }
 }

@@ -46,6 +46,12 @@ namespace VNMaker.EventBuss
         /// params type: none
         /// </summary>
         public const string CHECK_POST_INTERACTION = "CHECK_POST_INTERACTION"; 
+        
+        /// <summary>
+        /// params type: none
+        /// </summary>
+        public const string RESET_CHARACTER = "RESET_CHARACTER"; 
+        
     }
 
     public static class InteractEventList

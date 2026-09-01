@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -105,6 +104,8 @@ namespace DialogueSystem
             if (_currentText == null || _dialogue == null || _dialogue.DialogueParts == null || _dialogue.DialogueParts.Count <= 0)
                 return;
 
+            GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.RESET_CHARACTER);
+            
             //If i reached the last sentence of the current monologue
             if (_currentSentenceIndex == _dialogue.DialogueParts[_currentMonologueIndex].Sentences.Count)
             {
