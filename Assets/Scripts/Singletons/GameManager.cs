@@ -1,3 +1,5 @@
+using DialogueSystem;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using VNMaker.EventBuss;
 using VNMaker.SaveSystem;
@@ -8,21 +10,25 @@ namespace VNMaker.Singletons
     {
         private EventManager _dialogueEvents;
         private EventManager _interactableEvents;
-        private EventManager _mapEvents;
         private SaveManager _saveManager;
+        private DialogueSoundManager _dialogueSoundManager;
 
         public EventManager DialogueEvents => _dialogueEvents;
         public EventManager InteractableEvents => _interactableEvents;
-        public EventManager MapEvents => _mapEvents;
         public SaveManager SaveManager => _saveManager;
+        
+        public DialogueSoundManager DialogueSoundManager => _dialogueSoundManager;
+        
 
         protected override void Awake()
         {
             base.Awake();
             _dialogueEvents = new EventManager();
             _interactableEvents = new EventManager();
-            _mapEvents = new EventManager();
             _saveManager = new SaveManager();
+
+            _dialogueSoundManager = GetComponentInChildren<DialogueSoundManager>();
+            
 
 #if UNITY_EDITOR
             return;

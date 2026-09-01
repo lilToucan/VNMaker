@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1452897144714680329}
   - component: {fileID: 7941444320639820022}
+  - component: {fileID: 8457780282128565927}
   m_Layer: 0
   m_Name: CharacterBase
   m_TagString: Untagged
@@ -55,6 +56,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8457780282128565927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7172577383578805123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1352ab4a33840939accd8c88b69ef4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.CharacterData
+  SpriteHolder: {fileID: 1565067659713787830}
+  AnimatorHolder: {fileID: 7941444320639820022}
 --- !u!1 &7991074509856921512
 GameObject:
   m_ObjectHideFlags: 0

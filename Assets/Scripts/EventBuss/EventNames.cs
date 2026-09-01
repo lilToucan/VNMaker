@@ -13,7 +13,7 @@ namespace VNMaker.EventBuss
         public const string CHANGE_NAME = "CHANGE_NAME";
 
         /// <summary>
-        /// params type: List[Sprite[]]
+        /// params type: List[Sprite]
         /// </summary>
         public const string CHANGE_IMAGE = "CHANGE_IMAGE";
 
@@ -45,7 +45,7 @@ namespace VNMaker.EventBuss
         /// <summary>
         /// params type: none
         /// </summary>
-        public const string CHECK_POST_INTERACTION = "CHECK_POST_INTERACTION";
+        public const string CHECK_POST_INTERACTION = "CHECK_POST_INTERACTION"; 
     }
 
     public static class InteractEventList

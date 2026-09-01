@@ -20,6 +20,7 @@ namespace DialogueSystem
         public String TargetSceneName;
 
 
+        [ContextMenu("ResetParts")]
         public void ResetParts()
         {
             Dialogue.DialogueParts.Clear();
