@@ -158,7 +158,7 @@ namespace DialogueSystem
             _currentMonologueIndex = 0;
             _currentSentenceIndex = 0;
 
-            GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.END_DIALOGUE, _dialogue);
+            // GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.END_DIALOGUE, _dialogue);
             GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.REFRESH_INTERACTABLE_PRE_CONDITION);
 
             GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.END_DIALOGUE);
@@ -176,7 +176,7 @@ namespace DialogueSystem
         {
             _currentSentenceIndex = 0;
             _currentText = "";
-            _currentImages.Clear();
+            _currentImages = null;
         }
 
         private void SetCurrent(string sentence, SerializedDictionary<Sprite, List<AnimationClip>> image)

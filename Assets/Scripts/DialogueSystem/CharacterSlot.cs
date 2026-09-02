@@ -15,7 +15,7 @@ namespace DialogueSystem
         public SpriteRenderer SpriteHolder;
         public Animator AnimatorHolder;
         private AnimatorOverrideController _animatorOverrider;
-        private List<AnimationClipPlayable> _playableClips = new();
+        private AnimationClipPlayable _clipPlayable;
 
         private Vector3 _spriteStartPosition;
 
@@ -33,9 +33,11 @@ namespace DialogueSystem
             _mixerPlayable = AnimationMixerPlayable.Create(_graph, 1);
             playableOutput.SetSourcePlayable(_mixerPlayable);
 
-            var controllerPlayable = AnimatorControllerPlayable.Create(_graph, AnimatorHolder.runtimeAnimatorController);
-            _mixerPlayable.ConnectInput(0, controllerPlayable, 0);
-            _mixerPlayable.SetInputWeight(0, 0);
+            // var controllerPlayable = AnimatorControllerPlayable.Create(_graph, AnimatorHolder.runtimeAnimatorController);
+            // _mixerPlayable.ConnectInput(0, controllerPlayable, 0);
+            // _mixerPlayable.SetInputWeight(0, 0);
+            
+            AnimatorHolder.runtimeAnimatorController = null;
         }
 
 
@@ -82,23 +84,26 @@ namespace DialogueSystem
             if (animations.Count <= 0)
                 return;
 
-            foreach (var clip in _playableClips)
+            for (int x = 1; x < _mixerPlayable.GetInputCount(); x++)
             {
-                clip.Destroy();
+                _mixerPlayable.DisconnectInput(x);
             }
 
             _mixerPlayable.SetInputCount(animations.Count + 1); // +1 cause i need to keep the Animator's runtimeAnimatorController
-            int i = 1;
+
+            int i = 1; // again cause the 1st is the animator's runtimeAnimatorController
             foreach (var clip in animations)
             {
-                var clipPlayable = AnimationClipPlayable.Create(_graph, clip);
-                _mixerPlayable.ConnectInput(i, clipPlayable, 0);
+                _clipPlayable = AnimationClipPlayable.Create(_graph, clip);
+                _clipPlayable.GetAnimationClip().wrapMode = WrapMode.Once;
+                _mixerPlayable.ConnectInput(i, _clipPlayable, 0);
                 _mixerPlayable.SetInputWeight(i, 1);
-                _playableClips.Add(clipPlayable);
                 i++;
             }
 
+            //_mixerPlayable.SetDone(false);
             _graph.Play();
+            //_graph.Evaluate();
         }
 
         private void OnDestroy()
@@ -109,14 +114,8 @@ namespace DialogueSystem
             if (_mixerPlayable.IsValid())
                 _mixerPlayable.Destroy();
 
-            if (_playableClips.Count > 0)
-            {
-                foreach (var clip in _playableClips)
-                {
-                    if (clip.IsValid())
-                        clip.Destroy();
-                }
-            }
+            if (_clipPlayable.IsValid())
+                _clipPlayable.Destroy();
         }
     }
 }
