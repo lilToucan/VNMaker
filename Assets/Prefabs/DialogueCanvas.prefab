@@ -209,7 +209,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -313}
-  m_SizeDelta: {x: 372, y: 246}
+  m_SizeDelta: {x: 800, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4947094750984706051
 CanvasRenderer:
@@ -895,7 +895,8 @@ MonoBehaviour:
   _ListOfCharacters: {fileID: 2429189665324895568}
   _ContinueBtn: {fileID: 8989681917965872467}
   _ChoicesBox: {fileID: 804713014375261485}
-  _ChoicePrefab: {fileID: 0}
+  _ChoicesContent: {fileID: 7479284552914981148}
+  _ChoicePrefab: {fileID: 8901265269947679274, guid: 2ba26ac4ffd02bc41a88a29dfda41c47, type: 3}
 --- !u!1 &4686432327323040387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,15 +1757,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 90
+    m_Left: 20
+    m_Right: 20
+    m_Top: 25
+    m_Bottom: 25
   m_ChildAlignment: 1
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0

@@ -31,9 +31,13 @@ MonoBehaviour:
             Value: []
     _PostConditions:
       _serializedList: []
-    _HasChoices: 0
-    _DialogueChoices: []
-    _HasSceneChange: 1
+    _HasChoices: 1
+    _DialogueChoices:
+    - _Label: First choice
+      _DialogueSO: {fileID: 11400000, guid: d8a8a323625ee87458dadd61fd33e121, type: 2}
+    - _Label: Second choice
+      _DialogueSO: {fileID: 11400000, guid: d3de04489e25a5d459c69e824f4f5f1d, type: 2}
+    _DoesSceneChangeAfter: 0
     _TargetSceneName: 
     _DialogueMusicBackground: {fileID: 0}
     _LoopStartingPointInSeconds: 0

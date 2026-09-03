@@ -95,7 +95,7 @@ namespace DialogueSystem
             foreach (var clip in animations)
             {
                 _clipPlayable = AnimationClipPlayable.Create(_graph, clip);
-                _clipPlayable.GetAnimationClip().wrapMode = WrapMode.Once;
+                //_clipPlayable.GetAnimationClip().wrapMode = WrapMode.Once;
                 _mixerPlayable.ConnectInput(i, _clipPlayable, 0);
                 _mixerPlayable.SetInputWeight(i, 1);
                 i++;

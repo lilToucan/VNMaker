@@ -105,7 +105,7 @@ namespace DialogueSystem
                 return;
 
             GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.RESET_CHARACTER);
-            
+
             //If i reached the last sentence of the current monologue
             if (_currentSentenceIndex == _dialogue.DialogueParts[_currentMonologueIndex].Sentences.Count)
             {
@@ -119,13 +119,22 @@ namespace DialogueSystem
                 {
                     if (_dialogue.HasChoices)
                     {
-                        EndDialogue();
-                        GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.START_CHOICE, _dialogue.DialogueChoices);
+                        List<ChoiceClass> choices = _dialogue.DialogueChoices;
+
+                        EndDialogue(false); // set's _dialogue to null
+                        
+                        GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.START_CHOICE, choices);
+
                     }
                     else
                     {
-                        EndDialogue();
                         GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.CHECK_POST_INTERACTION);
+                        string targetSceneName = _dialogue.DoesSceneChangeAfter ? _dialogue.TargetSceneName : "";
+
+                        EndDialogue(); // set's _dialogue to null
+
+                        if (!string.IsNullOrEmpty(targetSceneName))
+                            SceneManager.LoadScene(targetSceneName);
                     }
                 }
 
@@ -151,7 +160,7 @@ namespace DialogueSystem
         /// <summary>
         /// Stop dialogue, reset all to default values and hide text box in UI
         /// </summary>
-        private void EndDialogue()
+        private void EndDialogue(bool closesDialogue = true)
         {
             ConditionsUtils.ApplyCondition(_dialogue.PostConditions);
 
@@ -161,13 +170,10 @@ namespace DialogueSystem
             // GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.END_DIALOGUE, _dialogue);
             GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.REFRESH_INTERACTABLE_PRE_CONDITION);
 
-            GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.END_DIALOGUE);
+            if (closesDialogue)
+                GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.END_DIALOGUE);
 
             _isDialogueActive = false;
-            if (_dialogue != null && _dialogue.HasSceneChange && !string.IsNullOrEmpty(_dialogue.TargetSceneName))
-            {
-                SceneManager.LoadScene(_dialogue.TargetSceneName);
-            }
 
             _dialogue = null;
         }

@@ -19,6 +19,7 @@ public class DialogueUiManager : MonoBehaviour
     private List<CharacterSlot> _characters = new();
     [SerializeField] private Button _ContinueBtn;
     [SerializeField] private GameObject _ChoicesBox;
+    [SerializeField] private GameObject _ChoicesContent;
     [SerializeField] private GameObject _ChoicePrefab;
 
     // Initialization and event registration
@@ -93,7 +94,7 @@ public class DialogueUiManager : MonoBehaviour
 
             for (int i = 0; i < dialogues.Count; i++)
             {
-                GameObject tmp = Instantiate(_ChoicePrefab, _ChoicesBox.transform);
+                GameObject tmp = Instantiate(_ChoicePrefab, _ChoicesContent.transform);
                 tmp.GetComponent<DialogueTrigger>().DefaultDialogue = dialogues[i].ChoiceDialogueSO;
                 tmp.GetComponentInChildren<TMP_Text>().text = dialogues[i].ChoiceLabel;
             }
@@ -148,9 +149,9 @@ public class DialogueUiManager : MonoBehaviour
     {
         _ChoicesBox.SetActive(false);
 
-        for (int i = 0; i < _ChoicesBox.transform.childCount; i++)
+        for (int i = 0; i < _ChoicesContent.transform.childCount; i++)
         {
-            Destroy(_ChoicesBox.transform.GetChild(i).gameObject);
+            Destroy(_ChoicesContent.transform.GetChild(i).gameObject);
         }
     }
 }

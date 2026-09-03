@@ -29,7 +29,7 @@ public class DialogueClass
 
     //Boolean needed to show and set the name of the scene in which the dialogue will change at the end
     [SerializeField] 
-    private bool _HasSceneChange;
+    private bool _DoesSceneChangeAfter;
 
     [SerializeField] 
     private String _TargetSceneName;
@@ -65,10 +65,10 @@ public class DialogueClass
         set => _DialogueCSV = value;
     }
 
-    public bool HasSceneChange
+    public bool DoesSceneChangeAfter
     {
-        get => _HasSceneChange;
-        set => _HasSceneChange = value;
+        get => _DoesSceneChangeAfter;
+        set => _DoesSceneChangeAfter = value;
     }
 
     public String TargetSceneName

@@ -11,7 +11,7 @@ namespace DialogueSystem
     public class DialogueSO : ScriptableObject
     {
         public DialogueClass Dialogue;
-        public bool HasChoices = false;
+        public bool HasChoices;
 
         public List<ChoiceClass> Choices;
 
@@ -35,13 +35,13 @@ namespace DialogueSystem
             // Ensure the Dialogue contains parts; initialize if empty.
             if (Dialogue.DialogueParts.Count == 0) TextElaboration();
 
-            // Sync choices with the Dialogue object.
-            Dialogue.HasChoices = HasChoices;
-            Dialogue.DialogueChoices = Choices;
-
-            // Sync the sceneChange with the Dialogue object
-            Dialogue.HasSceneChange = HasSceneChange;
-            Dialogue.TargetSceneName = TargetSceneName;
+            // // Sync choices with the Dialogue object.
+            // Dialogue.HasChoices = HasChoices;
+            // Dialogue.DialogueChoices = Choices;
+            //
+            // // Sync the sceneChange with the Dialogue object
+            // Dialogue.HasSceneChange = HasSceneChange;
+            // Dialogue.TargetSceneName = TargetSceneName;
         }
 
         /// <summary>

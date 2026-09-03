@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5683fd04b22b406097748dc174958e1e, type: 3}
+  m_Name: Choice2
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSystem.DialogueSO
+  Dialogue:
+    _PreConditions:
+      _serializedList: []
+    _DialogueCSV: {fileID: 4900000, guid: f8900e81e75b43b42b5230143220ec78, type: 3}
+    _DialogueParts:
+    - _Name: Omina
+      _Sentences:
+      - _Sentence: Choice2
+        _SFXAudio: {fileID: 0}
+        _SpriteAnimMapAnimMap:
+          _serializedList:
+          - Key: {fileID: -1898307095752135770, guid: 80d5cc6752f12d349a753825697390c5, type: 3}
+            Value: []
+          - Key: {fileID: 2019946367220032441, guid: 18c6cc03d6c9d694fa205dc060163a66, type: 3}
+            Value:
+            - {fileID: 7400000, guid: e5992c6a98d9e424da75e3ea96fb2a63, type: 2}
+    _PostConditions:
+      _serializedList: []
+    _HasChoices: 0
+    _DialogueChoices: []
+    _HasSceneChange: 0
+    _TargetSceneName: 
+    _DialogueMusicBackground: {fileID: 0}
+    _LoopStartingPointInSeconds: 0
+  HasChoices: 0
+  Choices: []
+  HasSceneChange: 0
+  TargetSceneName: 

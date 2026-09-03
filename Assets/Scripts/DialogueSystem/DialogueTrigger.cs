@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using VNMaker.EventBuss;
 using VNMaker.Singletons;
 
 namespace DialogueSystem
 {
-    [RequireComponent(typeof(EventTrigger))]
     public class DialogueTrigger : MonoBehaviour
     {
         // Serialized fields for Unity Inspector
@@ -26,15 +26,17 @@ namespace DialogueSystem
             set => _DefaultDialogue = value;
         }
 
-        private EventTrigger _eventTrigger;
+       // private EventTrigger _eventTrigger;
         private EventTrigger.Entry _entry = new();
 
         private void Start()
         {
-            _eventTrigger = GetComponent<EventTrigger>();
-            _entry.eventID = EventTriggerType.PointerClick;
-            _entry.callback.AddListener((_) => { StartDialogue(); });
-            _eventTrigger.triggers.Add(_entry);
+            if (TryGetComponent<EventTrigger>(out var eventTrigger))
+            {
+                _entry.eventID = EventTriggerType.PointerClick;
+                _entry.callback.AddListener((_) => { StartDialogue(); });
+                eventTrigger.triggers.Add(_entry);
+            }
         }
 
         /// <summary>
