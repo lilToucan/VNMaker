@@ -28,15 +28,19 @@ MonoBehaviour:
           - Key: {fileID: 5882273088893980385, guid: 2652074918a654242853d3a5184b51c4, type: 3}
             Value:
             - {fileID: 7400000, guid: e5992c6a98d9e424da75e3ea96fb2a63, type: 2}
+    - _Name: Omino
+      _Sentences:
+      - _Sentence: Choice1
+        _SFXAudio: {fileID: 0}
+        _SpriteAnimMapAnimMap:
+          _serializedList:
+          - Key: {fileID: 5882273088893980385, guid: 2652074918a654242853d3a5184b51c4, type: 3}
+            Value:
+            - {fileID: 7400000, guid: e5992c6a98d9e424da75e3ea96fb2a63, type: 2}
     _PostConditions:
       _serializedList: []
     _HasChoices: 0
     _DialogueChoices: []
-    _HasSceneChange: 0
-    _TargetSceneName: 
+    _DoesSceneChangeAfter: 1
+    _TargetSceneName: NextScene
     _DialogueMusicBackground: {fileID: 0}
-    _LoopStartingPointInSeconds: 0
-  HasChoices: 0
-  Choices: []
-  HasSceneChange: 0
-  TargetSceneName: 

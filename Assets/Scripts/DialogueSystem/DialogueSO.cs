@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -11,13 +9,6 @@ namespace DialogueSystem
     public class DialogueSO : ScriptableObject
     {
         public DialogueClass Dialogue;
-        public bool HasChoices;
-
-        public List<ChoiceClass> Choices;
-
-        public bool HasSceneChange = false;
-
-        public String TargetSceneName;
 
 
         [ContextMenu("ResetParts")]
@@ -30,19 +21,18 @@ namespace DialogueSystem
         /// <summary>
         /// Ensures that data in the Dialogue object remains consistent and initializes necessary fields.
         /// </summary>
-        private void OnValidate()
-        {
-            // Ensure the Dialogue contains parts; initialize if empty.
-            if (Dialogue.DialogueParts.Count == 0) TextElaboration();
+        // private void OnValidate()
+        // {
+        //     // Ensure the Dialogue contains parts; initialize if empty.
+        //     if (Dialogue.DialogueParts.Count == 0) TextElaboration();
+        // }
 
-            // // Sync choices with the Dialogue object.
-            // Dialogue.HasChoices = HasChoices;
-            // Dialogue.DialogueChoices = Choices;
-            //
-            // // Sync the sceneChange with the Dialogue object
-            // Dialogue.HasSceneChange = HasSceneChange;
-            // Dialogue.TargetSceneName = TargetSceneName;
+        [ContextMenu("ElaborateTextFile")]
+        public void ElaborateTextFile()
+        {
+            TextElaboration();
         }
+        
 
         /// <summary>
         /// Converts text from a CSV file into Dialogue data.
@@ -81,7 +71,7 @@ namespace DialogueSystem
                 line.SpriteAnimMap = new();
 
                 line.OstName = parts[(int)Field.OSTName];
-                line.OstSecondStartingLoop = parts[(int)Field.OSTStartLoop];
+                //line.OstSecondStartingLoop = parts[(int)Field.OSTStartLoop];
                 line.Audio = parts[(int)Field.SFX];
                 line.SpeakingPG = parts[(int)Field.PGName];
                 line.Sentence = parts[(int)Field.Sentence];
@@ -122,9 +112,9 @@ namespace DialogueSystem
                     String OSTName = line.OstName;
                     if (!IsStringNull(OSTName))
                     {
-                        float seconds = float.Parse(line.OstSecondStartingLoop, NumberStyles.AllowDecimalPoint, CultureInfo.GetCultureInfo("en-US"));
+                        // float seconds = float.Parse(line.OstSecondStartingLoop, NumberStyles.AllowDecimalPoint, CultureInfo.GetCultureInfo("en-US"));
                         Dialogue.DialogueMusicBackground = TextToAudioClip(OSTName, true);
-                        Dialogue.StartingLoopPoint = seconds;
+                        // Dialogue.StartingLoopPoint = seconds;
                         musicFound = true;
                     }
                 }
@@ -156,10 +146,10 @@ namespace DialogueSystem
                 var anims = TextToAnimation(new string[] { spriteAnim.Value });
                 if (sprite.Count <= 0)
                     continue;
-                for (int i = 0; i< anims.Count; i++)
+                for (int i = 0; i < anims.Count; i++)
                 {
                     var anim = anims[i];
-                    if(anim == null)
+                    if (anim == null)
                         anims.RemoveAt(i);
                 }
 
@@ -217,7 +207,7 @@ namespace DialogueSystem
                 string spritePath = "2D/Character Sprites/";
 
                 string[] separatedText = texts[i].Split('-'); // Split sprite string into character name and state.
-                
+
                 spritePath += separatedText[0] + "/"; // add character's name to the path . (2D/Character Sprites/*CharacterName*/)
 
                 spritePath += separatedText[1]; // (2D/Character Sprites/*CharacterName*/*CharacterState*)
@@ -239,7 +229,8 @@ namespace DialogueSystem
         private struct Line
         {
             public string OstName;
-            public string OstSecondStartingLoop;
+
+            //public string OstSecondStartingLoop;
             public string Audio;
 
             /// <summary>
@@ -257,10 +248,11 @@ namespace DialogueSystem
         private enum Field
         {
             OSTName = 0,
-            OSTStartLoop = 1,
-            SFX = 2,
-            PGName = 3,
-            Sentence = 4
+
+            // OSTStartLoop = 1,
+            SFX = 1,
+            PGName = 2,
+            Sentence = 3
         }
 
         private bool IsStringNull(string str)

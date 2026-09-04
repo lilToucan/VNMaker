@@ -5,6 +5,8 @@ namespace DialogueSystem
 {
     public class DialogueSoundManager : MonoBehaviour
     {
+        public float CrossfadeDuration = 1.5f;
+      
         private AudioSource _audioSourceMusic1;
         private AudioSource _audioSourceMusic2;
 
@@ -12,18 +14,18 @@ namespace DialogueSystem
 
         private AudioClip _currentSong;
 
-        private float _currentStartingPoint;
-
         private AudioClip _nextSong;
-
-        private float _nextStartingPoint;
-        private double _currentAudioLength;
-
-        private double _scheduledStartTime = 0;
-        private bool _isNextScheduled = false;
+        
+        // private double _currentAudioLength;
+        // private float _currentStartingPoint;
 
 
-        public float SecondsForFading = 1.5f;
+        // private float _nextStartingPoint;
+
+        // private double _scheduledStartTime = 0;
+        // private bool _isNextScheduled = false;
+
+
 
         private void Awake()
         {
@@ -56,13 +58,13 @@ namespace DialogueSystem
             _audioSourceSfx.PlayOneShot(clip);
         }
 
-        public void PlayOnLoop(AudioClip clip, float startingPointLoop)
+        public void PlayOnLoop(AudioClip clip/*, float startingPointLoop*/)
         {
             // if no other songs are playing then redo 
             if (_currentSong == null)
             {
                 _currentSong = clip;
-                _currentStartingPoint = startingPointLoop;
+                // _currentStartingPoint = startingPointLoop; // i don't remember why i did this 
                 AudioSource source = _audioSourceMusic1.isPlaying ? _audioSourceMusic1 : _audioSourceMusic2;
                 source.clip = _currentSong;
                 source.loop = true;
@@ -75,10 +77,10 @@ namespace DialogueSystem
 
             // if we're already playing something then crossfade between the 2 song
             _nextSong = clip;
-            _nextStartingPoint = startingPointLoop;
+            // _nextStartingPoint = startingPointLoop;
             AudioSource currentSource = _audioSourceMusic1.isPlaying ? _audioSourceMusic1 : _audioSourceMusic2;
             AudioSource newSource = (currentSource == _audioSourceMusic1) ? _audioSourceMusic2 : _audioSourceMusic1;
-            StartCoroutine(Crossfade(currentSource, newSource, SecondsForFading));
+            StartCoroutine(Crossfade(currentSource, newSource, CrossfadeDuration));
         }
 
 
@@ -111,9 +113,9 @@ namespace DialogueSystem
             ResetAudioSource(oldSource);
             
             _currentSong = _nextSong;
-            _currentStartingPoint = _nextStartingPoint;
+            // _currentStartingPoint = _nextStartingPoint;
             _nextSong = null;
-            _nextStartingPoint = 0;
+            // _nextStartingPoint = 0;
         }
 
         private void ResetAudioSource(AudioSource source)

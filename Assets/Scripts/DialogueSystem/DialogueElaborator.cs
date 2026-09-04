@@ -66,7 +66,7 @@ namespace DialogueSystem
 
             if (_dialogue.DialogueMusicBackground != null)
             {
-                GameManager.Instance.DialogueSoundManager.PlayOnLoop(_dialogue.DialogueMusicBackground, _dialogue.StartingLoopPoint);
+                GameManager.Instance.DialogueSoundManager.PlayOnLoop(_dialogue.DialogueMusicBackground/*, _dialogue.StartingLoopPoint*/);
             }
 
             _isDialogueActive = true;

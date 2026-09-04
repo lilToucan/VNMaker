@@ -37,8 +37,8 @@ public class DialogueClass
     //this clip will be looped as the background music
     [SerializeField] 
     private AudioClip _DialogueMusicBackground;
-    [SerializeField] 
-    private float _LoopStartingPointInSeconds;
+    // [SerializeField] 
+    // private float _LoopStartingPointInSeconds;
 
     public List<MonologueClass> DialogueParts => _DialogueParts;
 
@@ -83,9 +83,9 @@ public class DialogueClass
         set => _DialogueMusicBackground = value;
     }
 
-    public float StartingLoopPoint
-    {
-        get => _LoopStartingPointInSeconds;
-        set => _LoopStartingPointInSeconds = value;
-    }
+    // public float StartingLoopPoint
+    // {
+    //     get => _LoopStartingPointInSeconds;
+    //     set => _LoopStartingPointInSeconds = value;
+    // }
 }
