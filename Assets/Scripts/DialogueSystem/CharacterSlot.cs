@@ -7,6 +7,9 @@ using VNMaker.Singletons;
 
 namespace DialogueSystem
 {
+    /// <summary>
+    /// this class is used to play animations to the characters in the dialogue
+    /// </summary>
     [RequireComponent(typeof(Animator))]
     public class CharacterSlot : MonoBehaviour
     {
@@ -33,10 +36,6 @@ namespace DialogueSystem
             _mixerPlayable = AnimationMixerPlayable.Create(_graph, 1);
             playableOutput.SetSourcePlayable(_mixerPlayable);
 
-            // var controllerPlayable = AnimatorControllerPlayable.Create(_graph, AnimatorHolder.runtimeAnimatorController);
-            // _mixerPlayable.ConnectInput(0, controllerPlayable, 0);
-            // _mixerPlayable.SetInputWeight(0, 0);
-            
             AnimatorHolder.runtimeAnimatorController = null;
         }
 
@@ -47,11 +46,20 @@ namespace DialogueSystem
             GameManager.Instance.DialogueEvents.Register(DialogueEventList.RESET_CHARACTER, ResetCharacter);
         }
 
+        /// <summary>
+        /// Called by the dialogue elaborator to reset any changes the previous animation did
+        /// </summary>
+        /// <param name="obj">nothin</param>
         private void ResetCharacter(object[] obj)
         {
             SpriteHolder.transform.localScale = Vector3.one;
             SpriteHolder.transform.rotation = Quaternion.identity;
             SpriteHolder.transform.localPosition = _spriteStartPosition;
+
+            for (int x = 0; x < _mixerPlayable.GetInputCount(); x++)
+            {
+                _mixerPlayable.DisconnectInput(x);
+            }
         }
 
         // [Test]
@@ -79,38 +87,47 @@ namespace DialogueSystem
         //     _graph.Play();
         // }
 
+        /// <summary>
+        /// Called by the DialogueUiManager in the ChangeImage function <br></br>
+        /// resets all inputs then cycles through every given animation and connects them with the playable system <br></br>
+        /// then it plays them all at once 
+        /// </summary>
+        /// <param name="animations">the animations to play</param>
         public void PlayAnimations(List<AnimationClip> animations)
         {
             if (animations.Count <= 0)
                 return;
 
-            for (int x = 1; x < _mixerPlayable.GetInputCount(); x++)
+            for (int x = 0; x < _mixerPlayable.GetInputCount(); x++) // doing it again cause you never know
             {
                 _mixerPlayable.DisconnectInput(x);
             }
 
-            _mixerPlayable.SetInputCount(animations.Count + 1); // +1 cause i need to keep the Animator's runtimeAnimatorController
+            _mixerPlayable.SetInputCount(animations.Count);
 
-            int i = 1; // again cause the 1st is the animator's runtimeAnimatorController
+            int i = 0;
             foreach (var clip in animations)
             {
                 _clipPlayable = AnimationClipPlayable.Create(_graph, clip);
-                //_clipPlayable.GetAnimationClip().wrapMode = WrapMode.Once;
                 _mixerPlayable.ConnectInput(i, _clipPlayable, 0);
                 _mixerPlayable.SetInputWeight(i, 1);
+                //_clipPlayable.Destroy();
                 i++;
             }
 
-            //_mixerPlayable.SetDone(false);
             _graph.Play();
-            //_graph.Evaluate();
         }
 
+        /// <summary>
+        /// since the playable system doesn't have garbage collection i have to do it
+        /// </summary>
         private void OnDestroy()
         {
             if (_graph.IsValid())
                 _graph.Destroy();
 
+            // to be honest idk if i need to do this 2
+            
             if (_mixerPlayable.IsValid())
                 _mixerPlayable.Destroy();
 

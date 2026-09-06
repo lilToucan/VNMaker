@@ -5,34 +5,27 @@ using UnityEngine;
 
 namespace DialogueSystem
 {
+    /// <summary>
+    /// scriptable object with the data of the dialogue <br></br>
+    /// uses a cvs file, separated by underscores, to populate the data<br></br>
+    /// </summary>
     [CreateAssetMenu(menuName = "Custom Assets/Dialogue")]
     public class DialogueSO : ScriptableObject
     {
         public DialogueClass Dialogue;
 
-
         [ContextMenu("ResetParts")]
         public void ResetParts()
         {
             Dialogue.DialogueParts.Clear();
-            Dialogue.DialogueCSV = null;
         }
-
-        /// <summary>
-        /// Ensures that data in the Dialogue object remains consistent and initializes necessary fields.
-        /// </summary>
-        // private void OnValidate()
-        // {
-        //     // Ensure the Dialogue contains parts; initialize if empty.
-        //     if (Dialogue.DialogueParts.Count == 0) TextElaboration();
-        // }
 
         [ContextMenu("ElaborateTextFile")]
         public void ElaborateTextFile()
         {
             TextElaboration();
         }
-        
+
 
         /// <summary>
         /// Converts text from a CSV file into Dialogue data.
@@ -54,7 +47,7 @@ namespace DialogueSystem
         }
 
         /// <summary>
-        /// Parses lines from the CSV file into structured data.
+        /// splits all the lines of the cvs file then populates a Line struct variable
         /// </summary>
         /// <param name="listLines">Output list of parsed lines.</param>
         /// <param name="lines">Array of CSV file lines.</param>
@@ -64,16 +57,15 @@ namespace DialogueSystem
 
             for (int i = 0; i < lines.Length; i++)
             {
-                string[] parts = lines[i].Split('_');
+                string[] parts = lines[i].Split('_'); // OstName_Audio_SpeakingPG_Sentence_Character1Sprite!Animation_Character2Sprite!Animation_Character3!Animation...
 
                 Line line = new Line();
 
                 line.SpriteAnimMap = new();
 
                 line.OstName = parts[(int)Field.OSTName];
-                //line.OstSecondStartingLoop = parts[(int)Field.OSTStartLoop];
                 line.Audio = parts[(int)Field.SFX];
-                line.SpeakingPG = parts[(int)Field.PGName];
+                line.SpeakingCharacter = parts[(int)Field.CharacterName];
                 line.Sentence = parts[(int)Field.Sentence];
                 for (int x = 5; x < parts.Length; x++)
                 {
@@ -86,7 +78,9 @@ namespace DialogueSystem
         }
 
         /// <summary>
-        /// Converts parsed lines into Dialogue objects.
+        /// sends the strings inside the list listLines to be converted to the correct Data format  <br></br>
+        /// then it populates a SentenceClass variable <br></br>
+        /// then 
         /// </summary>
         /// <param name="listLines">List of parsed lines.</param>
         private void CreateDialogue(List<Line> listLines)
@@ -98,12 +92,10 @@ namespace DialogueSystem
                 List<SentenceClass> strSentences = new List<SentenceClass>();
 
                 Line line = listLines[i];
-                string currentlySpeakingPg = line.SpeakingPG;
-
-                // gets date in csv line
+                string currentlySpeakingCharacter = line.SpeakingCharacter;
+                //                                                     Gets sprites and animations inside resource folder  Gets audio clips inside resource folder
                 SentenceClass strSentence = new SentenceClass(line.Sentence, TextToSpriteAnimationMap(line.SpriteAnimMap), TextToAudioClip(line.Audio, false));
 
-                // adds data to the monologue
                 strSentences.Add(strSentence);
 
                 if (!musicFound) // if background music not found
@@ -112,9 +104,7 @@ namespace DialogueSystem
                     String OSTName = line.OstName;
                     if (!IsStringNull(OSTName))
                     {
-                        // float seconds = float.Parse(line.OstSecondStartingLoop, NumberStyles.AllowDecimalPoint, CultureInfo.GetCultureInfo("en-US"));
                         Dialogue.DialogueMusicBackground = TextToAudioClip(OSTName, true);
-                        // Dialogue.StartingLoopPoint = seconds;
                         musicFound = true;
                     }
                 }
@@ -122,7 +112,7 @@ namespace DialogueSystem
                 int j = i + 1;
                 while (j < listLines.Count) // used to add all the lines from the same Character 
                 {
-                    if (!IsStringNull(listLines[j].SpeakingPG) && listLines[j].SpeakingPG != currentlySpeakingPg) break;
+                    if (!IsStringNull(listLines[j].SpeakingCharacter) && listLines[j].SpeakingCharacter != currentlySpeakingCharacter) break;
                     strSentence = new SentenceClass(listLines[j].Sentence, TextToSpriteAnimationMap(listLines[j].SpriteAnimMap), TextToAudioClip(line.Audio, false));
                     strSentences.Add(strSentence);
                     j++;
@@ -131,12 +121,18 @@ namespace DialogueSystem
                 if (j - 1 != i)
                     i = --j;
 
-                MonologueClass monologue = new MonologueClass(currentlySpeakingPg, strSentences);
+                MonologueClass monologue = new MonologueClass(currentlySpeakingCharacter, strSentences);
                 Dialogue.DialogueParts.Add(monologue);
             }
         }
 
 
+        /// <summary>
+        /// creates a dictionary of Sprites to List[AnimationClip] so that it can be used during the dialogue to play animations on the correct character <br></br>
+        /// then for each key value pair in the given spriteAnimMap it gets the sprite and animation and uses them to populate the dictionary
+        /// </summary>
+        /// <param name="spriteAnimMap"></param>
+        /// <returns></returns>
         private SerializedDictionary<Sprite, List<AnimationClip>> TextToSpriteAnimationMap(SerializedDictionary<string, string> spriteAnimMap)
         {
             SerializedDictionary<Sprite, List<AnimationClip>> map = new();
@@ -144,8 +140,10 @@ namespace DialogueSystem
             {
                 var sprite = TextToSprite(new string[] { spriteAnim.Key });
                 var anims = TextToAnimation(new string[] { spriteAnim.Value });
+
                 if (sprite.Count <= 0)
                     continue;
+
                 for (int i = 0; i < anims.Count; i++)
                 {
                     var anim = anims[i];
@@ -162,10 +160,10 @@ namespace DialogueSystem
 
 
         /// <summary>
-        /// Converts string to animations
+        /// Gets the Animations inside the Resources/2D/Character Animations/
         /// </summary>
-        /// <param name="strAnimations"></param>
-        /// <returns></returns>
+        /// <param name="strAnimations">array of string names</param>
+        /// <returns>a list of animation clips</returns>
         private List<AnimationClip> TextToAnimation(string[] strAnimations)
         {
             List<AnimationClip> animations = new();
@@ -192,10 +190,10 @@ namespace DialogueSystem
         }
 
         /// <summary>
-        /// Converts sprite references in text form to Sprite objects.
+        /// Gets the sprites inside Resources/2D/Character Sprites/*GivenCharName* folder
         /// </summary>
         /// <param name="texts">Array of sprite paths as strings.</param>
-        /// <returns>Array of Sprite objects.</returns>
+        /// <returns>List of Sprite objects.</returns>
         private List<Sprite> TextToSprite(string[] texts)
         {
             List<Sprite> sprites = new();
@@ -208,12 +206,15 @@ namespace DialogueSystem
 
                 string[] separatedText = texts[i].Split('-'); // Split sprite string into character name and state.
 
+                if (separatedText.Length < 2)
+                    continue;
+
                 spritePath += separatedText[0] + "/"; // add character's name to the path . (2D/Character Sprites/*CharacterName*/)
 
                 spritePath += separatedText[1]; // (2D/Character Sprites/*CharacterName*/*CharacterState*)
 
                 // Load sprite from the Resources folder.
-                Sprite sprite = Resources.Load<Sprite>(spritePath); // 2D/Character Sprites/*CharacterName*/*CharacterState* (ex: 2D/Character Sprites/Pippo/Happy)
+                Sprite sprite = Resources.Load<Sprite>(spritePath); // 2D/Character Sprites/*CharacterName*/*CharacterState* (ex: 2D/Character Sprites/Pippo/Happy or 2D/Character Sprites/Gino/GinoDead)
 
                 sprites.Add(sprite);
             }
@@ -221,24 +222,18 @@ namespace DialogueSystem
             return sprites;
         }
 
-        // Supporting structs and enums
-
         /// <summary>
         /// Represents a line parsed from the CSV file.
         /// </summary>
         private struct Line
         {
             public string OstName;
-
-            //public string OstSecondStartingLoop;
             public string Audio;
-
             /// <summary>
-            /// dictionary with PG's sprite + PG's Animation
+            /// dictionary with Character's sprite + Character's Animation
             /// </summary>
             public SerializedDictionary<string, string> SpriteAnimMap;
-
-            public string SpeakingPG;
+            public string SpeakingCharacter;
             public string Sentence;
         }
 
@@ -248,10 +243,8 @@ namespace DialogueSystem
         private enum Field
         {
             OSTName = 0,
-
-            // OSTStartLoop = 1,
             SFX = 1,
-            PGName = 2,
+            CharacterName = 2,
             Sentence = 3
         }
 
@@ -261,6 +254,7 @@ namespace DialogueSystem
         }
 
         /// <summary>
+        /// gets the audio clip in Resources/Audio/<br></br>
         /// when isOST = false the sound will be searched in the SFX folder
         /// </summary>
         private AudioClip TextToAudioClip(string fileName, bool isOst)
@@ -268,7 +262,7 @@ namespace DialogueSystem
             if (!IsStringNull(fileName))
             {
                 string strAudioPath = "Audio/";
-                strAudioPath += isOst ? "OST/OST_" : "SFX/SFX_";
+                strAudioPath += isOst ? "OST/" : "SFX/";
                 strAudioPath += fileName;
 
                 return Resources.Load(strAudioPath) as AudioClip;

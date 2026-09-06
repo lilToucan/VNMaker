@@ -2,21 +2,27 @@ using System.Collections;
 using DialogueSystem;
 using UnityEngine;
 
-[RequireComponent(typeof(DialogueTrigger))]
-public class AutomaticOnSceneChangeDialogue : MonoBehaviour
+namespace DialogueSystem
 {
-    private DialogueTrigger _xDialogueTrigger;
-
-
-    void Start()
+    /// <summary>
+    /// This class automatically calls the StartDialogue function of any dialogue trigger component at the start
+    /// </summary>
+    [RequireComponent(typeof(DialogueTrigger))]
+    public class AutomaticOnSceneChangeDialogue : MonoBehaviour
     {
-        _xDialogueTrigger = GetComponent<DialogueTrigger>();
-        StartCoroutine(StartDialogue());
-    }
+        private DialogueTrigger _xDialogueTrigger;
 
-    IEnumerator StartDialogue()
-    {
-        yield return new WaitForSeconds(0.5f);
-        _xDialogueTrigger.StartDialogue();
+
+        void Start()
+        {
+            _xDialogueTrigger = GetComponent<DialogueTrigger>();
+            StartCoroutine(StartDialogue());
+        }
+
+        IEnumerator StartDialogue()
+        {
+            yield return new WaitForSeconds(0.5f);
+            _xDialogueTrigger.StartDialogue();
+        }
     }
 }
