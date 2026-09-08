@@ -32,11 +32,6 @@ MonoBehaviour:
       _serializedList: []
     _HasChoices: 0
     _DialogueChoices: []
-    _HasSceneChange: 0
+    _DoesSceneChangeAfter: 0
     _TargetSceneName: 
     _DialogueMusicBackground: {fileID: 0}
-    _LoopStartingPointInSeconds: 0
-  HasChoices: 0
-  Choices: []
-  HasSceneChange: 0
-  TargetSceneName: 

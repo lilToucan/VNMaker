@@ -32,7 +32,7 @@ namespace VNMaker.SaveSystem
 
         /// <summary>
         /// Gets a reference of the current saved data from the save file <br></br>
-        /// if the id of the current scene is valid it saves the new value
+        /// if the id of the current scene is valid it saves the new value <br></br>
         /// if the given conditions are valid it saves them
         /// </summary>
         /// <param name="conditions">the conditions to save (null = not saved)</param>

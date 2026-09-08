@@ -23,6 +23,8 @@ MonoBehaviour:
         _SFXAudio: {fileID: 0}
         _SpriteAnimMapAnimMap:
           _serializedList:
+          - Key: {fileID: 3042885534864340799, guid: f11a811b0914dff498c70c32cd5140a8, type: 3}
+            Value: []
           - Key: {fileID: 5882273088893980385, guid: 2652074918a654242853d3a5184b51c4, type: 3}
             Value:
             - {fileID: 7400000, guid: e5992c6a98d9e424da75e3ea96fb2a63, type: 2}

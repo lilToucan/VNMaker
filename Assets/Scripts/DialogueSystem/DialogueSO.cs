@@ -67,7 +67,7 @@ namespace DialogueSystem
                 line.Audio = parts[(int)Field.SFX];
                 line.SpeakingCharacter = parts[(int)Field.CharacterName];
                 line.Sentence = parts[(int)Field.Sentence];
-                for (int x = 5; x < parts.Length; x++)
+                for (int x = 4; x < parts.Length; x++)
                 {
                     string[] spriteAnim = parts[x].Split('!'); // ex: Sprites!Animations
                     line.SpriteAnimMap.Add(spriteAnim[0], spriteAnim[1]);

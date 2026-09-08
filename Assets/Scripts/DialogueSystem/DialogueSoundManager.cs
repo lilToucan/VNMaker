@@ -16,17 +16,6 @@ namespace DialogueSystem
 
         private AudioClip _nextSong;
         
-        // private double _currentAudioLength;
-        // private float _currentStartingPoint;
-
-
-        // private float _nextStartingPoint;
-
-        // private double _scheduledStartTime = 0;
-        // private bool _isNextScheduled = false;
-
-
-
         private void Awake()
         {
             SetupAudioSources();
@@ -58,7 +47,7 @@ namespace DialogueSystem
             _audioSourceSfx.PlayOneShot(clip);
         }
 
-        public void PlayOnLoop(AudioClip clip/*, float startingPointLoop*/)
+        public void PlayOnLoop(AudioClip clip)
         {
             // if no other songs are playing then redo 
             if (_currentSong == null)

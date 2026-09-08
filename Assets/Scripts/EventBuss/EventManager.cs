@@ -10,7 +10,7 @@ namespace VNMaker.EventBuss
     public class EventManager
     {
         // Dictionary used to store Events
-        private Dictionary<string, List<Action<object[]>>> _eventDictionary = new();
+        private Dictionary<string, Action<object[]>> _eventDictionary = new();
 
         /// <summary>
         /// Registers Action inside the Dictionary
@@ -21,11 +21,11 @@ namespace VNMaker.EventBuss
                 return;
 
             if (_eventDictionary.ContainsKey(eventName))
-                _eventDictionary[eventName].Add(action);
+                _eventDictionary[eventName] += action;
             else
             {
-                _eventDictionary.Add(eventName, new List<Action<object[]>>());
-                _eventDictionary[eventName].Add(action);
+                _eventDictionary.Add(eventName, null);
+                _eventDictionary[eventName] += action;
             }
         }
 
@@ -38,7 +38,7 @@ namespace VNMaker.EventBuss
                 return;
 
             if (_eventDictionary.ContainsKey(eventName))
-                _eventDictionary[eventName].Remove(action);
+                _eventDictionary[eventName] -= action;
         }
 
 
@@ -47,11 +47,8 @@ namespace VNMaker.EventBuss
         /// </summary>
         public void TriggerEvent(string eventName, params object[] parameters)
         {
-            if (_eventDictionary.TryGetValue(eventName, out var actions))
-            {
-                foreach (Action<object[]> action in actions)
-                    action.Invoke(parameters);
-            }
+            if (_eventDictionary.TryGetValue(eventName, out var action))
+                action.Invoke(parameters);
         }
 
         /// <summary>
