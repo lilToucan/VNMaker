@@ -56,7 +56,6 @@ namespace VNMaker.EventBuss
 
     public static class InteractEventList
     {
-
         /// <summary>
         /// params type: none
         /// </summary>

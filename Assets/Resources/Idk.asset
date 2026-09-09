@@ -23,7 +23,7 @@ MonoBehaviour:
         ObjectImage: {fileID: 21300000, guid: 7342ee656932e31489ea62e64e012645, type: 3}
     - Key: 2
       Value:
-        Name: 
+        Name: Not the knife
         Description: it's a knfie but 12
         ObjectIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
         ObjectImage: {fileID: 21300000, guid: b533c652136df4744a089524507a44c6, type: 3}

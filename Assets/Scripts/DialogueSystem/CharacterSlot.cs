@@ -93,7 +93,6 @@ namespace DialogueSystem
                 _clipPlayable = AnimationClipPlayable.Create(_graph, clip);
                 _mixerPlayable.ConnectInput(i, _clipPlayable, 0);
                 _mixerPlayable.SetInputWeight(i, 1);
-                //_clipPlayable.Destroy();
                 i++;
             }
 

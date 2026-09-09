@@ -71,22 +71,24 @@ namespace VNMaker.Progression.Diary
             for (int x = 0; x < changedItems.Count; x++)
             {
                 ConditionToItemData changedItemData = changedItems[x];
-                
+
                 for (int i = 0; i < _listOfItemsInDiary.Count; i++) // check if you already have the item saved then if so change just the data
                 {
                     ConditionToItemData diaryItem = _listOfItemsInDiary[i];
 
                     if (!_inventorySlots.TryGetValue(changedItemData.ConditionsToUnlock, out ItemSlot inventorySlot))
                         continue;
-                    
+
                     if (changedItemData.ConditionsToUnlock != diaryItem.ConditionsToUnlock) // check if the changedItem already exist
                         continue;
 
                     _listOfItemsInDiary[i] = changedItemData; // if so then change that slot's data to the new one
+                    changedItemData = null;
                     break;
                 }
 
-                _listOfItemsInDiary.Add(changedItemData);
+                if (changedItemData != null)
+                    _listOfItemsInDiary.Add(changedItemData);
             }
         }
 
