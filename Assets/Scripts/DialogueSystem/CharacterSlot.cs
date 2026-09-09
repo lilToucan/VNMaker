@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -13,17 +14,14 @@ namespace DialogueSystem
     [RequireComponent(typeof(Animator))]
     public class CharacterSlot : MonoBehaviour
     {
-        private PlayableGraph _graph;
-        private AnimationMixerPlayable _mixerPlayable;
         public SpriteRenderer SpriteHolder;
         public Animator AnimatorHolder;
+        private PlayableGraph _graph;
+        private AnimationMixerPlayable _mixerPlayable;
         private AnimatorOverrideController _animatorOverrider;
         private AnimationClipPlayable _clipPlayable;
 
         private Vector3 _spriteStartPosition;
-
-        // for testing purposes 
-        //[SerializeField] private List<AnimationClip> _animations;
 
         private void Awake()
         {
@@ -39,11 +37,20 @@ namespace DialogueSystem
             AnimatorHolder.runtimeAnimatorController = null;
         }
 
-
         private void Start()
         {
             _spriteStartPosition = SpriteHolder.transform.localPosition;
+        }
+
+        private void OnEnable()
+        {
             GameManager.Instance.DialogueEvents.Register(DialogueEventList.RESET_CHARACTER, ResetCharacter);
+        }
+
+        private void OnDisable()
+        {
+            
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.RESET_CHARACTER, ResetCharacter);
         }
 
         /// <summary>
@@ -61,31 +68,6 @@ namespace DialogueSystem
                 _mixerPlayable.DisconnectInput(x);
             }
         }
-
-        // [Test]
-        // public void TestingPlayAnims()
-        // {
-        //     if (_animations.Count <= 0)
-        //         return;
-        //     foreach (var clip in _playableClips)
-        //     {
-        //         clip.Destroy();
-        //     }
-        //
-        //     _mixerPlayable.SetInputCount(_animations.Count + 1); // +1 cause i need to keep the Animator's runtimeAnimatorController
-        //     int i = 1;
-        //     foreach (var clip in _animations)
-        //     {
-        //         Debug.Log(clip.name);
-        //         var clipPlayable = AnimationClipPlayable.Create(_graph, clip);
-        //         _mixerPlayable.ConnectInput(i, clipPlayable, 0);
-        //         _mixerPlayable.SetInputWeight(i, 1);
-        //         _playableClips.Add(clipPlayable);
-        //         i++;
-        //     }
-        //
-        //     _graph.Play();
-        // }
 
         /// <summary>
         /// Called by the DialogueUiManager in the ChangeImage function <br></br>

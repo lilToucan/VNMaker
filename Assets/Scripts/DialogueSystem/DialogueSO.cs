@@ -26,7 +26,6 @@ namespace DialogueSystem
             TextElaboration();
         }
 
-
         /// <summary>
         /// Converts text from a CSV file into Dialogue data.
         /// </summary>
@@ -229,10 +228,12 @@ namespace DialogueSystem
         {
             public string OstName;
             public string Audio;
+
             /// <summary>
             /// dictionary with Character's sprite + Character's Animation
             /// </summary>
             public SerializedDictionary<string, string> SpriteAnimMap;
+
             public string SpeakingCharacter;
             public string Sentence;
         }
@@ -246,11 +247,6 @@ namespace DialogueSystem
             SFX = 1,
             CharacterName = 2,
             Sentence = 3
-        }
-
-        private bool IsStringNull(string str)
-        {
-            return String.IsNullOrEmpty(str) || "aaa".Equals(str);
         }
 
         /// <summary>
@@ -269,6 +265,11 @@ namespace DialogueSystem
             }
 
             return null;
+        }
+
+        private bool IsStringNull(string str)
+        {
+            return String.IsNullOrEmpty(str) || "aaa".Equals(str);
         }
     }
 }

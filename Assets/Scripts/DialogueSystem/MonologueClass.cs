@@ -9,7 +9,7 @@ namespace DialogueSystem
         [SerializeField] private string _Name;
         [SerializeField] private List<SentenceClass> _Sentences;
 
-        public string SName => _Name;
+        public string Name => _Name;
         public List<SentenceClass> Sentences => _Sentences;
 
         public MonologueClass(string name, List<SentenceClass> sentences)

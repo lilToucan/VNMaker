@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
-using DialogueSystem;
 using TMPro;
 using UnityEngine.UI;
 using VNMaker.EventBuss;
@@ -27,14 +27,6 @@ namespace DialogueSystem
         // Initialization and event registration
         void Start()
         {
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.START_DIALOGUE, ShowDialogueUI);
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.CHANGE_NAME, ChangeName);
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.CHANGE_SENTENCE, ChangeSentence);
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.CHANGE_IMAGE, ChangeImage);
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.END_DIALOGUE, HideDialogueUI);
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.START_CHOICE, ShowChoices);
-            GameManager.Instance.DialogueEvents.Register(DialogueEventList.HIDE_CHOICE, HideChoices);
-
             HideDialogueUI(null);
 
             // Get all character slots
@@ -47,11 +39,33 @@ namespace DialogueSystem
             }
         }
 
+        private void OnEnable()
+        {
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.START_DIALOGUE, ShowDialogueUI);
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.CHANGE_NAME, ChangeName);
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.CHANGE_SENTENCE, ChangeSentence);
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.CHANGE_IMAGE, ChangeImage);
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.END_DIALOGUE, HideDialogueUI);
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.START_CHOICE, ShowChoices);
+            GameManager.Instance.DialogueEvents.Register(DialogueEventList.HIDE_CHOICE, HideChoices);
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.START_DIALOGUE, ShowDialogueUI);
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.CHANGE_NAME, ChangeName);
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.CHANGE_SENTENCE, ChangeSentence);
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.CHANGE_IMAGE, ChangeImage);
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.END_DIALOGUE, HideDialogueUI);
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.START_CHOICE, ShowChoices);
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.HIDE_CHOICE, HideChoices);
+        }
+
         /// <summary>
         /// Changes the dialogue sentence displayed in the UI.
         /// </summary>
         /// <param name="param">Array where the first element is the sentence (string).</param>
-        public void ChangeSentence(object[] param)
+        private void ChangeSentence(object[] param)
         {
             _Sentence.text = (string)param[0];
         }
@@ -60,7 +74,7 @@ namespace DialogueSystem
         /// Updates the character name displayed in the UI.
         /// </summary>
         /// <param name="param">Array where the first element is the name (string).</param>
-        public void ChangeName(object[] param)
+        private void ChangeName(object[] param)
         {
             _Name.text = (string)param[0];
         }
@@ -69,7 +83,7 @@ namespace DialogueSystem
         /// Updates character images shown in the UI based on a list of sprites.
         /// </summary>
         /// <param name="param">Array where the first element is a list of Sprite arrays.</param>
-        public void ChangeImage(object[] param)
+        private void ChangeImage(object[] param)
         {
             SerializedDictionary<Sprite, List<AnimationClip>> charactersInfo = (SerializedDictionary<Sprite, List<AnimationClip>>)param[0];
 

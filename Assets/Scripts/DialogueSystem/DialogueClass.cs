@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DialogueSystem;
 using UnityEngine;
@@ -32,7 +31,7 @@ public class DialogueClass
     private bool _DoesSceneChangeAfter;
 
     [SerializeField] 
-    private String _TargetSceneName;
+    private string _TargetSceneName;
 
     //this clip will be looped as the background music
     [SerializeField] 
@@ -71,7 +70,7 @@ public class DialogueClass
         set => _DoesSceneChangeAfter = value;
     }
 
-    public String TargetSceneName
+    public string TargetSceneName
     {
         get => _TargetSceneName;
         set => _TargetSceneName = value;

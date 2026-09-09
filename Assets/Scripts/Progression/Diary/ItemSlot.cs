@@ -35,7 +35,7 @@ namespace VNMaker.Progression.Diary
             SlotName.text = newData.Name != "" ? newData.Name : SlotName.text;
         }
 
-        public void OnInteraction()
+        private void OnInteraction()
         {
             GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_ITEMSLOT_PRESSED, this);
         }

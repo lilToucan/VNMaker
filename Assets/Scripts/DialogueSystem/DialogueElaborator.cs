@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -18,9 +19,15 @@ namespace DialogueSystem
         private int _currentMonologueIndex;
         private int _currentSentenceIndex;
 
-        private void Start()
+        private void OnEnable()
         {
             GameManager.Instance.DialogueEvents.Register(DialogueEventList.START_DIALOGUE_ELAB, StartDialogue); // trigger found in DialogueTrigger class
+        }
+
+        private void OnDisable()
+        {
+            
+            GameManager.Instance.DialogueEvents.Unregister(DialogueEventList.START_DIALOGUE_ELAB, StartDialogue); // trigger found in DialogueTrigger class
         }
 
         /// <summary>
@@ -28,7 +35,7 @@ namespace DialogueSystem
         /// </summary>
         /// <param name="dialogueList"> List[DialogueClass]</param>
         /// <param name="defaultDialogue">DialogueClass</param>
-        public void StartDialogue(object[] param)
+        private void StartDialogue(object[] param)
         {
             if (_isDialogueActive)
                 return;
@@ -80,7 +87,7 @@ namespace DialogueSystem
         {
             if (_dialogue != null)
             {
-                GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.CHANGE_NAME, _dialogue.DialogueParts[_currentMonologueIndex].SName);
+                GameManager.Instance.DialogueEvents.TriggerEvent(DialogueEventList.CHANGE_NAME, _dialogue.DialogueParts[_currentMonologueIndex].Name);
                 ClearCurrent();
 
                 foreach (SentenceClass sentence in _dialogue.DialogueParts[_currentMonologueIndex].Sentences)

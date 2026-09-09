@@ -19,7 +19,6 @@ namespace VNMaker.Progression.Diary
         [SerializeField] private Sprite _ItemSlotDefaultSprite;
 
         [SerializeField] private GameObject _InventorySlotPrefab;
-        // [SerializeField] private ItemSlot[] _itemSlots = new ItemSlot[16];
 
         private List<ConditionToItemData> _listOfItemsInDiary = new();
         private Dictionary<ConditionEnum, ItemSlot> _inventorySlots = new();
@@ -29,7 +28,7 @@ namespace VNMaker.Progression.Diary
             GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_DIARY_CHANGE, UpdateInventory);
             GameManager.Instance.InteractableEvents.Register(InteractEventList.ON_ITEMSLOT_PRESSED, OnItemSlotPressed);
 
-            GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE);
+            GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE); // Calls to update inventory again just in case something went wrong 
 
             UpdateDetails(null, "");
         }

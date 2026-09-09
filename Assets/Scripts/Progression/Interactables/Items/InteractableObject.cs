@@ -9,15 +9,15 @@ namespace VNMaker.Interactables.Items
     [RequireComponent(typeof(SpriteRenderer), typeof(EventTrigger))]
     public class InteractableObject : MonoBehaviour
     {
-        [SerializeField] private Conditions _preConditions;
-        [SerializeField] private Conditions _postConditions;
+        [SerializeField] private Conditions _PreConditions;
+        [SerializeField] private Conditions _PostConditions;
 
         private SpriteRenderer _spriteRenderer;
         private EventTrigger _eventTrigger;
         private EventTrigger.Entry _entry = new();
 
-        public Conditions PreConditions =>  _preConditions;
-        public Conditions PostConditions => _postConditions;
+        public Conditions PreConditions =>  _PreConditions;
+        public Conditions PostConditions => _PostConditions;
 
         private void OnEnable()
         {
@@ -46,7 +46,7 @@ namespace VNMaker.Interactables.Items
         /// </summary>
         private void ApplyPostConditions()
         {
-            ConditionsUtils.ApplyCondition(_postConditions);
+            ConditionsUtils.ApplyCondition(_PostConditions);
             GameManager.Instance.InteractableEvents.TriggerEvent(InteractEventList.ON_CONDITION_CHANGE); 
         }
 
@@ -57,7 +57,7 @@ namespace VNMaker.Interactables.Items
         private void CheckPreConditions(params object[] param)
         {
             // if the preconditions are not met deactivate 
-            if (!ConditionsUtils.CheckConditions(_preConditions))
+            if (!ConditionsUtils.CheckConditions(_PreConditions))
             {
                 _spriteRenderer.enabled = false;
                 _eventTrigger.enabled = false;

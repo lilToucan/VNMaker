@@ -1,5 +1,4 @@
 using System.Collections;
-using DialogueSystem;
 using UnityEngine;
 
 namespace DialogueSystem
@@ -19,7 +18,7 @@ namespace DialogueSystem
             StartCoroutine(StartDialogue());
         }
 
-        IEnumerator StartDialogue()
+        private IEnumerator StartDialogue()
         {
             yield return new WaitForSeconds(0.5f);
             _xDialogueTrigger.StartDialogue();

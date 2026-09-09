@@ -22,10 +22,5 @@ namespace DialogueSystem
             _SpriteAnimMapAnimMap = spriteAnimMapAnimMap;
             _SFXAudio = audio;
         }
-
-        // public void ResetSizeImageArray()
-        // {
-        //     Array.Resize(ref _Sprites, 6);
-        // }
     }
 }
